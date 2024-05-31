@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoRight - Your Ultimate Travel Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("background.png");
+            background-size: cover;
+            background-repeat: repeat;
+            font-family: Arial, sans-serif;
+        }
+        button.b2 {
+            margin: 20px;
+            height: 40px;
+            width: 40px;
+            border-radius: 80%;
+            background: rgb(56,38,187);
+            background: linear-gradient(135deg, rgba(56,38,187,1) 0%, rgba(106,200,168,1) 50%);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            outline: none;
+        }
+        .main {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            padding-top: 150px; /* Adjusted padding top to accommodate the fixed header */
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(48, 47, 47, 0.8);
+            z-index: 1;
+        }
+        h1, nav {
+            margin: 0;
+            color: #fff;
+        }
+        nav fieldset {
+            margin-right: 10px;
+        }
+        nav input[type="search"], nav input[type="date"] {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px; /* Added margin between header and cards */
+        }
+
+        .card {
+            width: calc(25% - 20px); /* Calculated width for four cards in a row */
+            background-color: transparent;
+            box-shadow: 4px 4px 8px rgba(109, 107, 107, 0.1);
+            overflow: visible;
+            height: 200px;
+            position: relative;
+            border-radius: 50px;
+        }
+        .card:hover {
+            width: calc(25% - 20px); /* Adjusted width on hover */
+            background-color: transparent;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow:visible;
+            height: 200px;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width:min(100%, 956px) ;
+            background-color: rgba(73, 73, 73, 0.2); /* Transparent gray background */
+            padding: 10px;
+            box-sizing: border-box;
+            color: #fff;
+            text-align: center;
+            display: none; /* Initially hidden */
+            border-radius: 10px;
+        }
+
+        .card:hover .card-overlay {
+            display: flex; /* Display when card is hovered */
+            justify-content: space-between; /* Align items horizontally */
+            align-items: center; /* Align items vertically */
+            background-color: rgba(73, 73, 73, 0.8); /* Semi-transparent gray background */
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+        .destination {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .amount {
+            font-size: 18px;
+            color: #4CAF50;
+        }
+        button.like-btn {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            background-color: transparent;
+            border:#ff0a0a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor:pointer;
+            display:flex;
+            z-index: 1;
+        }
+        .like-btn i {
+            font-size: 24px;
+            color: rgb(255, 0, 0);
+        }
+        .liked {
+            background-color: rgb(255, 32, 32); /* Semi-transparent white background */
+        }
+        .card:hover .like-btn {
+            display: flex;
+           border: #040506;
+        }
+        button.like-btn{
+            background-color: transparent;
+        }
+       
+
+/* Adjust the existing CSS rule */
+.card:hover .like-btn {
+    display: flex; /* Display the like button on hover */
+    position: absolute; /* Add this line to position the like button properly */
+    top: 5px; /* Adjust as necessary */
+    right: 15px; /* Adjust as necessary */
+    z-index: 1;
+}
+
+.button p {
+  z-index: 1;
+}
+
+.button:hover {
+  color: #212121;
+}
+
+.button:active {
+  border-color: teal;
+}
+
+.button::after, .button::before {
+  content: "";
+  position: absolute;
+  width: 9em;
+  aspect-ratio: 1;
+  background: mediumspringgreen;
+  opacity: 50%;
+  border-radius: 50%;
+  transition: transform 500ms, background 300ms;
+}
+
+.button::before {
+  left: 0;
+  transform: translateX(-8em);
+}
+
+.button::after {
+  right: 0;
+  transform: translateX(8em);
+}
+
+.button:hover:before {
+  transform: translateX(-1em);
+}
+
+.button:hover:after {
+  transform: translateX(1em);
+}
+
+.button:active:before,
+.button:active:after {
+  background: teal;
+}
+        button.seeMore, button.less {
+            background-color: rgb(56,38,187);
+            background: linear-gradient(135deg, rgba(56,38,187,1) 0%, rgba(106,200,168,1) 50%);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            outline: none;
+            border-radius: 50px;
+            height: 35px;
+            width: 250px;
+            margin: 20px;
+        }
+        .seeMoreBtn {
+            background-color: rgb(56,38,187);
+            background: linear-gradient(135deg, rgba(56,38,187,1) 0%, rgba(106,200,168,1) 50%);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            outline: none;
+            border-radius: 50px;
+            height: 35px;
+            width: 250px;
+            margin: 20px;
+        /* }
+        @media screen and (max-width: 1200px) {
+            .container {
+                justify-content: space-around;
+            }
+            .card {
+                width: calc(33.33% - 20px);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                justify-content: center;
+            }
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .card {
+                width: calc(100% - 20px);
+            } */
+        }.new_footer_area {
+    background-color: rgba(182, 182, 182, 0.1);}
+
+
+.new_footer_top {
+    padding: 120px 0px 270px;
+    position: relative;
+      overflow-x: hidden;
+}
+.new_footer_area .footer_bottom {
+    padding-top: 5px;
+    padding-bottom: 50px;
+}
+.footer_bottom {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #7f88a6;
+    padding: 27px 0px;
+}
+.new_footer_top .company_widget p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 28px;
+    color: #6a7695;
+    margin-bottom: 20px;
+}
+.new_footer_top .company_widget .f_subscribe_two .btn_get {
+    border-width: 1px;
+    margin-top: 20px;
+}
+.btn_get_two:hover {
+    background: transparent;
+    color: #5e2ced;
+}
+.btn_get:hover {
+    color: #fff;
+    background: #6754e2;
+    border-color: #6754e2;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+
+
+.new_footer_top .f_widget.about-widget .f_list li a:hover {
+    color: #4907ff;
+}
+.new_footer_top .f_widget.about-widget .f_list li {
+    margin-bottom: 11px;
+}
+.f_widget.about-widget .f_list li:last-child {
+    margin-bottom: 0px;
+}
+.f_widget.about-widget .f_list li {
+    margin-bottom: 15px;
+}
+.f_widget.about-widget .f_list {
+    margin-bottom: 0px;
+}
+.new_footer_top .f_social_icon a {
+    width: 44px;
+    height: 44px;
+    line-height: 43px;
+    background: transparent;
+    border: 1px solid #e2e2eb;
+    font-size: 24px;
+}
+.f_social_icon a {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    font-size: 14px;
+    line-height: 45px;
+    color: #0740fc;
+    display: inline-block;
+    background: #ebeef5;
+    text-align: center;
+    -webkit-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+.ti-facebook:before {
+    content: "\e741";
+}
+.ti-twitter-alt:before {
+    content: "\e74b";
+}
+.ti-vimeo-alt:before {
+    content: "\e74a";
+}
+.ti-pinterest:before {
+    content: "\e731";
+}
+
+.btn_get_two {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: #5e2ced;
+    border-color: #5e2ced;
+    color: #f1b0b0;
+}
+
+.btn_get_two:hover {
+    background: transparent;
+    color: #8a74c7;
+}
+
+.new_footer_top .f_social_icon a:hover {
+    background: #4909f9;
+    border-color: #5e2ced;
+  color:white;
+}
+.new_footer_top .f_social_icon a + a {
+    margin-left: 4px;
+}
+.new_footer_top .f-title {
+    margin-bottom: 30px;
+    color: #0e66fd;
+}
+.f_600 {
+    font-weight: 600;
+}
+.f_size_18 {
+    font-size: 18px;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #0246ff;
+}
+.new_footer_top .f_widget.about-widget .f_list li a {
+    color: #f6f9ff;
+}
+header h1{
+    color: #e15454;
+}
+
+.new_footer_top .footer_bg {
+    position: absolute;
+    bottom: 0;
+    background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigB8iI5tb8WSVBuVUGc9UjjB8O0708X7Fdic_4O1LT4CmLHoiwhanLXiRhe82yw0R7LgACQ2IhZaTY0hhmGi0gYp_Ynb49CVzfmXtYHUVKgXXpWvJ_oYT8cB4vzsnJLe3iCwuzj-w6PeYq_JaHmy_CoGoa6nw0FBo-2xLdOPvsLTh_fmYH2xhkaZ-OGQ/s16000/footer_bg.png") no-repeat scroll center 0;
+    width: 100%;
+    height: 266px;
+}
+
+.new_footer_top .footer_bg .footer_bg_one {
+    background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEia0PYPxwT5ifToyP3SNZeQWfJEWrUENYA5IXM6sN5vLwAKvaJS1pQVu8mOFFUa_ET4JuHNTFAxKURFerJYHDUWXLXl1vDofYXuij45JZelYOjEFoCOn7E6Vxu0fwV7ACPzArcno1rYuVxGB7JY6G7__e4_KZW4lTYIaHSLVaVLzklZBLZnQw047oq5-Q/s16000/volks.gif") no-repeat center center;
+    width: 330px;
+    height: 105px;
+  background-size:100%;
+    position: absolute;
+    bottom: 0;
+    left: 30%;
+    -webkit-animation: myfirst 22s linear infinite;
+    animation: myfirst 22s linear infinite;
+}
+
+.new_footer_top .footer_bg .footer_bg_two {
+    background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhyLGwEUVwPK6Vi8xXMymsc-ZXVwLWyXhogZxbcXQYSY55REw_0D4VTQnsVzCrL7nsyjd0P7RVOI5NKJbQ75koZIalD8mqbMquP20fL3DxsWngKkOLOzoOf9sMuxlbyfkIBTsDw5WFUj-YJiI50yzgVjF8cZPHhEjkOP_PRTQXDHEq8AyWpBiJdN9SfQA/s16000/cyclist.gif") no-repeat center center;
+    width: 88px;
+    height: 100px;
+  background-size:100%;
+    bottom: 0;
+    left: 38%;
+    position: absolute;
+    -webkit-animation: myfirst 30s linear infinite;
+    animation: myfirst 30s linear infinite;
+}
+
+
+.header {
+        position: relative;
+    }
+@-moz-keyframes myfirst {
+  0% {
+    left: -25%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@-webkit-keyframes myfirst {
+  0% {
+    left: -25%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes myfirst {
+  0% {
+    left: -25%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GoRight</h1>
+        <fieldset>
+            <legend>Source</legend>
+            <input type="search">
+        </fieldset>
+        
+        <fieldset>
+            <legend>Destination</legend>
+            <input type="search">
+        </fieldset>
+        
+        <fieldset>
+            <legend>Date</legend>
+            <input type="date">
+        </fieldset>
+        
+        <fieldset>
+            <legend>No. of members</legend>
+            <input type="search">
+        </fieldset>
+        
+        <button class="b2"><i class="fa fa-search"></i></button> 
+        
+    </header>
+    
+    <div class="main">
+        <!-- Start of Popular Cards Section -->
+        <div class="container">
+            
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="kash.jpeg" alt="Destination 1">
+                <div class="card-overlay">
+                    <div class="destination">Kashmir</div>
+                    <div class="amount">$500</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="GOA.jpeg" alt="Destination 2">
+                <div class="card-overlay">
+                    <div class="destination">Goa</div>
+                    <div class="amount">$750</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="lon.jpeg" alt="Destination 3">
+                <div class="card-overlay">
+                    <div class="destination">London</div>
+                    <div class="amount">$600</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="paris.jpeg" alt="Destination 4">
+                <div class="card-overlay">
+                    <div class="destination">Paris</div>
+                    <div class="amount">$900</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://cdn.britannica.com/95/94195-050-FCBF777E/Golden-Gate-Bridge-San-Francisco.jpg" alt="Destination 1">
+                <div class="card-overlay">
+                    <div class="destination">Golden Gate Bridge</div>
+                    <div class="amount">$500</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://lp-cms-production.imgix.net/news/2018/01/taj-mahal-visitor-limits.jpg?auto=format&q=75" alt="Destination 2">
+                <div class="card-overlay">
+                    <div class="destination">Taj Mahal</div>
+                    <div class="amount">$750</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://images.unsplash.com/photo-1564551099958-799746bfe1aa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8bWFjaHUtcGljY2h1fHx8fHx8MTcxMjUwMzY0Mg&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600" alt="Destination 3">
+                <div class="card-overlay">
+                    <div class="destination">Machu Pichu</div>
+                    <div class="amount">$600</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://images.unsplash.com/photo-1591290800687-3f0998a3426c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8dmVuaWNlfHx8fHx8MTcxMjUwMzU3Nw&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600" alt="Destination 4">
+                <div class="card-overlay">
+                    <div class="destination">Venice</div>
+                    <div class="amount">$900</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://ychef.files.bbci.co.uk/1280x720/p0gp95cq.jpg" alt="Destination 1">
+                <div class="card-overlay">
+                    <div class="destination">Sydney Opera House</div>
+                    <div class="amount">$500</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://balidave.com/wp-content/uploads/2022/11/best-hotel-bali.jpeg" alt="Destination 2">
+                <div class="card-overlay">
+                    <div class="destination">Bali</div>
+                    <div class="amount">$750</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://gskworldtravels.com/wp-content/uploads/2023/07/maldives.jpg" alt="Destination 3">
+                <div class="card-overlay">
+                    <div class="destination">Maldives</div>
+                    <div class="amount">$600</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://media.cntraveler.com/photos/63482b255e7943ad4006df0b/16:9/w_2560%2Cc_limit/tokyoGettyImages-1031467664.jpeg" alt="Destination 4">
+                <div class="card-overlay">
+                    <div class="destination">Tokyo</div>
+                    <div class="amount">$900</div>
+                </div>
+            </div><div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://wp.thecollector.com/wp-content/uploads/2020/08/great-wall-of-china-with-map-1.jpg" alt="Destination 1">
+                <div class="card-overlay">
+                    <div class="destination">China</div>
+                    <div class="amount">$500</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://images.immediate.co.uk/production/volatile/sites/7/2019/07/33-GettyImages-154260931-216706f.jpg?quality=90&resize=980,654" alt="Destination 2">
+                <div class="card-overlay">
+                    <div class="destination">Egypt</div>
+                    <div class="amount">$750</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://media.tacdn.com/media/attractions-splice-spp-674x446/0c/03/ba/c4.jpg" alt="Destination 3">
+                <div class="card-overlay">
+                    <div class="destination">Niagara Falls</div>
+                    <div class="amount">$600</div>
+                </div>
+            </div>
+            <div class="card">
+                <button class="like-btn" onclick="toggleLike(this)">
+                    <i class="fa fa-heart-o"></i> <!-- Heart outline icon -->
+                </button>
+                <img src="https://assets-prd.ignimgs.com/2023/02/12/dis2-1676177189186.png" alt="Destination 4">
+                <div class="card-overlay">
+                    <div class="destination">Disney World</div>
+                    <div class="amount">$900</div>
+                </div>
+            </div>
+        </div>
+        
+            <!-- Repeat the card structure for other cards -->
+        </div>
+        <footer class="new_footer_area bg_color">
+            <div class="new_footer_top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                                <h3 class="f-title f_600 t_color f_size_18">Get in Touch</h3>
+                               
+                                <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true" _lpchecked="1">
+                                    <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
+                                    <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
+                                    <p class="mchimp-errmessage" style="display: none;"></p>
+                                    <p class="mchimp-sucmessage" style="display: none;"></p>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                                <h3 class="f-title f_600 t_color f_size_18">Download</h3>
+                                <ul class="list-unstyled f_list">
+                                    <li><a href="#">Android App</a></li>
+                                    <li><a href="#">ios App</a></li>
+                                    <li><a href="#">Desktop</a></li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                                <h3 class="f-title f_600 t_color f_size_18">Help</h3>
+                                <ul class="list-unstyled f_list">
+                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="#">Term &amp; conditions</a></li>
+                                    <li><a href="#">Reporting</a></li>
+                                    <li><a href="#">Documentation</a></li>
+                                    <li><a href="#">Support Policy</a></li>
+                                    <li><a href="#">Privacy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                                <h3 class="f-title f_600 t_color f_size_18">Follow Us O<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">n</h3>
+                                <div class="f_social_icon">
+                                    <a href="#" class="fab fa-facebook"></a>
+                                    <a href="#" class="fab fa-twitter"></a>
+                                    <a href="#" class="fab fa-linkedin"></a>
+                                    <a href="#" class="fab fa-pinterest"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer_bg">
+                    <div class="footer_bg_one"></div>
+                    <div class="footer_bg_two"></div>
+                </div>
+            </div>
+            <div class="footer_bottom">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-sm-7">
+                            <p class="mb-0 f_400">© GoRight 2024 All rights reserved.</p>
+                        </div>
+                        <!-- <div class="col-lg-6 col-sm-5 text-right">
+                            <p style="color: #e2e2eb;"><i class="icon_heart"></i> in <a href="" target="_blank">GoRight</a></p>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        function toggleLike(button) {
+        button.querySelector('i').classList.toggle('fa-heart-o');
+        button.querySelector('i').classList.toggle('fa-heart');
+    }
+    </script>
+</body>
+</html>
